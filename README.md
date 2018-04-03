@@ -9,8 +9,8 @@ Add Retrofit and Gson dependencies in app level gradle
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
 
 # Step 2
-    a. make the API call with your browser or with softwares like [Postman](https://www.getpostman.com/)
-       or [CocoaRestClient](http://mmattozzi.github.io/cocoa-rest-client/)
+    a. make the API call with your browser or with softwares like [Postman](https://www.getpostman.com)
+       or [CocoaRestClient](http://mmattozzi.github.io/cocoa-rest-client)
 
     b. copy the json response to http://www.jsonschema2pojo.org/ and generate object java class(es)
 
