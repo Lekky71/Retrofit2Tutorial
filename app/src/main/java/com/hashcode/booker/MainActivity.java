@@ -13,6 +13,7 @@ import android.widget.EditText;
 
 import com.hashcode.booker.models.BookSearchResult;
 import com.hashcode.booker.models.Item;
+import com.hashcode.booker.models.LoginBody;
 
 import java.util.ArrayList;
 
@@ -44,9 +45,9 @@ public class MainActivity extends AppCompatActivity {
         Retrofit retrofit = RetrofitBuilder.getRetrofit();
         ApiEndpointService apiEndpointService = retrofit.create(ApiEndpointService.class);
 
-        Call<BookSearchResult> call = apiEndpointService.searchForBook(word);
+        Call<BookSearchResult> searchCall = apiEndpointService.searchForBook(word);
 
-        call.enqueue(new Callback<BookSearchResult>() {
+        searchCall.enqueue(new Callback<BookSearchResult>() {
             @Override
             public void onResponse(Call<BookSearchResult> call, Response<BookSearchResult> response) {
                 BookSearchResult bookSearchResult = response.body();
@@ -55,6 +56,21 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<BookSearchResult> call, Throwable t) {
+
+            }
+        });
+
+        //for POST example -> doesn't work
+        Call<Object> loginCall =  apiEndpointService.loginUser(new LoginBody("Kante", "0123456789"));
+
+        loginCall.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
 
             }
         });

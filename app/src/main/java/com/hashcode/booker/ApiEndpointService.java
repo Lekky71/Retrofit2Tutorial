@@ -1,6 +1,7 @@
 package com.hashcode.booker;
 
 import com.hashcode.booker.models.BookSearchResult;
+import com.hashcode.booker.models.LoginBody;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -17,5 +18,7 @@ public interface ApiEndpointService {
     @GET("volumes")
     Call<BookSearchResult> searchForBook(@Query("q")String bookName);
 
+    @POST("login")
+    Call<Object> loginUser(@Body LoginBody loginBody);
 
 }
