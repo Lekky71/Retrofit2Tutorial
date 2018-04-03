@@ -8,22 +8,54 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.EditText;
+
+import com.hashcode.booker.models.BookSearchResult;
+import com.hashcode.booker.models.Item;
+
+import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity {
 
+    EditText searchEditText;
+    Button searchButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        searchButton = findViewById(R.id.search_button);
+        searchEditText = findViewById(R.id.edt_search);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        searchEditText.setOnClickListener(this::searchClickListener);
+
+
+    }
+
+    public void searchClickListener(View view){
+        String word = searchEditText.getText().toString().trim();
+        Retrofit retrofit = RetrofitBuilder.getRetrofit();
+        ApiEndpointService apiEndpointService = retrofit.create(ApiEndpointService.class);
+
+        Call<BookSearchResult> call = apiEndpointService.searchForBook(word);
+
+        call.enqueue(new Callback<BookSearchResult>() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onResponse(Call<BookSearchResult> call, Response<BookSearchResult> response) {
+                BookSearchResult bookSearchResult = response.body();
+                ArrayList<Item> allBooks = (ArrayList<Item>) bookSearchResult.getItems();
+            }
+
+            @Override
+            public void onFailure(Call<BookSearchResult> call, Throwable t) {
+
             }
         });
     }
